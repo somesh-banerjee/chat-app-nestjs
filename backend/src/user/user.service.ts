@@ -24,6 +24,14 @@ export class UserService {
     return user;
   }
 
+  async findOne(options?: any): Promise<any> {
+    let user = await this.userModel.findOne(options).exec();
+
+    if (user) user = user.schema.methods.serialize(user);
+
+    return user;
+  }
+
   async create(user: User): Promise<any> {
     const createdUser = new this.userModel(user);
     return await createdUser.save();
