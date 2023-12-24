@@ -1,9 +1,24 @@
 import { createContext, useContext, useState } from "react";
 
+interface User {
+    id: string;
+    username: string;
+    email: string;
+}
+
+interface Token {
+    accessToken: string;
+    refreshToken: string;
+}
+
 interface GlobalState {
+    user?: User;
+    token?: Token;
 }
 
 const initialState: GlobalState = {
+    user: undefined,
+    token: undefined,
 };
 
 const GlobalStateContext = createContext<

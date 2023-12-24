@@ -35,7 +35,7 @@ export class AuthService {
 
     const isValid = await this.checkUserPassword(user, credentials.password);
     if (!isValid)
-      return new HttpException('Invalid credentials', HttpStatus.BAD_REQUEST);
+      return new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
 
     const serializedUser = user.schema.methods.serialize(user);
     const tokens = await this.jwtService.generateTokens(serializedUser);

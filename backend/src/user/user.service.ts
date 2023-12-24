@@ -8,7 +8,7 @@ export class UserService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
   async findAll(options?: any): Promise<User[]> {
-    let users = await this.userModel.find(options).exec();
+    const users = await this.userModel.find(options).exec();
     const serializedUsers = users.map((user) => {
       return user.schema.methods.serialize(user);
     });
@@ -24,10 +24,10 @@ export class UserService {
     return user;
   }
 
-  async findOne(options?: any): Promise<any> {
+  async findOne(options?: any, isSerial?: boolean): Promise<any> {
     let user = await this.userModel.findOne(options).exec();
 
-    if (user) user = user.schema.methods.serialize(user);
+    if (user && isSerial) user = user.schema.methods.serialize(user);
 
     return user;
   }
