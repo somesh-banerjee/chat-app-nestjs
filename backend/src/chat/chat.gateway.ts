@@ -52,17 +52,29 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('message')
   async onMessage(client, data: any) {
     const event = 'message';
-    const result = data[0];
 
-    console.log(result);
+    const user = await this.jwtService.verify(
+      client.handshake.query.token,
+      true,
+    );
 
-    await this.roomsService.addMessage(result.room, result.message);
-    client.broadcast.to(result.room).emit(event, result.message);
+    console.log(
+      `user: ${user._id} sent message: ${data.message} to room: ${data.roomId}`,
+    );
+
+    const { newMessage } = await this.roomsService.addMessage(
+      data.roomId,
+      data.message,
+      user._id,
+    );
+    newMessage.user = user;
+    // client.broadcast.to(data.roomId).emit(event, newMessage);
+    this.server.emit(event, newMessage);
 
     return new Observable((observer) =>
       observer.next({
         event,
-        data: result.message,
+        data: data.message,
       }),
     );
   }

@@ -1,10 +1,14 @@
 import { Schema } from 'mongoose';
-import { MessageSchema } from './message.schema';
 
 const room = new Schema({
   name: { type: String, required: true, unique: true },
   description: { type: String },
-  messages: [MessageSchema],
+  messages: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Message',
+    },
+  ],
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now },
 });

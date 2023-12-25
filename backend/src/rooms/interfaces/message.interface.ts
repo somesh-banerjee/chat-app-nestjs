@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Document, Schema } from 'mongoose';
 import { User } from 'src/user/interfaces/user.interface';
 
 export interface Message extends Document {
