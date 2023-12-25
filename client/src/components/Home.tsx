@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useGlobalStateContext } from "../utils/Context";
 import { useEffect, useRef, useState } from "react";
 
-export const Home = () => {
-    const navigate = useNavigate();
+export const Home = () => {    
+const navigate = useNavigate();
     const { user } = useGlobalStateContext();
 
     useEffect(() => {
@@ -28,15 +28,15 @@ const NewRoom = () => {
         e.preventDefault();
         const name = nameRef.current?.value;
         const description = descriptionRef.current?.value;
-        const response = await fetch("http://localhost:3000/rooms", {
+        await fetch("http://localhost:3000/rooms", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({ name, description }),
         });
-        const data = await response.json();
-        console.log(data);
+        nameRef.current!.value = "";
+        descriptionRef.current!.value = "";
     }
 
     return (
@@ -74,7 +74,7 @@ const RoomList = () => {
                     name: string,
                     description: string,
                 }) => (
-                    <div key={room._id} className="flex flex-col items-center justify-center cursor-pointer mb-2 border-4 px-4" onClick={() => navigate(`${room._id}`)}>
+                    <div key={room._id} className="flex flex-col items-center justify-center cursor-pointer mb-2 border-4 px-4" onClick={() => navigate(`room/${room._id}`)}>
                         <div className="flex flex-row items-center justify-center">
                             <p className="text-xl font-bold">{room.name}</p>
                         </div>

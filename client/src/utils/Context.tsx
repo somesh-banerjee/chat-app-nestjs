@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { Socket } from "socket.io-client";
 
 interface User {
     id: string;
@@ -13,12 +14,14 @@ interface Token {
 
 interface GlobalState {
     user?: User;
-    token?: Token;
+    tokens?: Token;
+    socket?: Socket
 }
 
 const initialState: GlobalState = {
     user: undefined,
-    token: undefined,
+    tokens: undefined,
+    socket: undefined,
 };
 
 const GlobalStateContext = createContext<

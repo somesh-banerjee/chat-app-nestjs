@@ -26,9 +26,11 @@ export const Login = () => {
                 body: JSON.stringify({ email, password })
             })
             const responseDate = await apiResponse.json();
+
+            console.log('from login', responseDate)
             updateGlobalState({
                 user: responseDate.user,
-                token: responseDate.token
+                tokens: responseDate.tokens
             });
 
             navigate('/');

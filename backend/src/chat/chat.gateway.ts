@@ -11,7 +11,7 @@ import { JwtService } from 'src/auth/jwt/jwt.service';
 import { RoomsService } from 'src/rooms/rooms.service';
 import { User } from 'src/user/interfaces/user.interface';
 
-@WebSocketGateway(1080, { namespace: 'rooms' })
+@WebSocketGateway(8001, { cors: '*' })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server;
@@ -53,6 +53,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async onMessage(client, data: any) {
     const event = 'message';
     const result = data[0];
+
+    console.log(result);
 
     await this.roomsService.addMessage(result.room, result.message);
     client.broadcast.to(result.room).emit(event, result.message);
